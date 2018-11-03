@@ -1,0 +1,16 @@
+{
+  "name": "InviteForMoney",
+  "version": "1.0.0",
+  "description": "Invite for rewards",
+  "main": "index.js",
+  "scripts": {
+    "test": "say"
+  },
+  "author": "AmTrash",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "nodemod": "^1.5.19",
+    "nodemon": "^1.18.5"
+  }
+}
