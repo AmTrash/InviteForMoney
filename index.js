@@ -35,6 +35,20 @@ bot.on("message", async (message) => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
+    if(cmd == `${prefix}serverinfo`){
+
+        let sicon = message.guild.iconURL;
+        let serverembed = new Discord.RichEmbed()
+        .setAuthor("Server Info")
+        .setColor("GOLD")
+        .setThumbnail(sicon)
+        .addField("Server Name", message.guild.name)
+        .addField("You joined in", message.member.joinedAt)
+        .addField("Total Members", message.guild.memberCount);
+
+        return message.channel.send(serverembed)
+    }
+
     let commandfile = bot.commands.get(cmd.slice(prefix.length));
     if(commandfile) commandfile.run(bot,message,args);
     if(cmd.toLowerCase() == `${botconfig.prefix}new`){
@@ -57,13 +71,19 @@ bot.on("message", async (message) => {
         VIEW_MESSAGES: true
     });
     await message.member.addRole(AuthorRole);
-    message.channel.send("Ticket has been succesfully created");
+    message.channel.send("Ticket has been succesfully created :white_check_mark:");
   }
 
-  if (cmd.toLowerCase == `${botconfig.prefix}close` && message.channel.name == message.author.username){
+  if (cmd.toLowerCase() == `${botconfig.prefix}close`/* && message.channel.name == message.author.username*/){
+    var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();
+    if (message.channel.name == message.author.username)
       message.member.send("Your support ticket is closed");
       message.channel.delete();
-  };
-});
+  }
+  else {
+      return;
+  }
   
-client.login(process.env.BOT_TOKEN);
+})
+  
+bot.login(process.env.BOT_TOKEN)
