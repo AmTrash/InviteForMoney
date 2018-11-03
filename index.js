@@ -41,7 +41,7 @@ bot.on("message", async (message) => {
         let serverembed = new Discord.RichEmbed()
         .setAuthor("Server Info")
         .setColor("GOLD")
-        .setThumbnail(sicon)
+        .setThumbnail(url="http://2.bp.blogspot.com/-jlNRMff0pDY/VRBWTCW5pAI/AAAAAAAAAqE/9ujJilGYcRw/s1600/114385__marlon-brando-godfather-godfather-don-vito-corleone-style-classic-movie_p.jpg")
         .addField("Server Name", message.guild.name)
         .addField("You joined in", message.member.joinedAt)
         .addField("Total Members", message.guild.memberCount);
