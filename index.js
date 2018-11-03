@@ -78,7 +78,8 @@ bot.on("message", async (message) => {
     var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();
     if (message.channel.name == message.author.username)
       message.member.send("Your support ticket is closed");
-      message.channel.delete();
+      message.channel.delete()
+      return message.guild.removerole(message.author.username)
   }
   else {
       return;
