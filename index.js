@@ -79,7 +79,8 @@ bot.on("message", async (message) => {
     if (message.channel.name == message.author.username)
       message.member.send("Your support ticket is closed");
       message.channel.delete()
-      return message.guild.removerole(message.author.username)
+      let AuthorRole = message.guild.roles.find("name", message.author.username);
+      message.member.removeRole(AuthorRole);
   }
   else {
       return;
