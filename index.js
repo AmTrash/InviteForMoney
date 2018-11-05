@@ -5,6 +5,13 @@ const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection
 const active = new Map();
 
+const serverStats = {
+    guildID: '508946111315181569',
+    totalUsersID: '509011097454641162',
+    memberCountID: '509011381001912329',
+    botCountID: '509011429286871050'
+};
+
 
 
 fs.readdir("./commands/", (err, files) => {
@@ -31,6 +38,22 @@ bot.on("ready", async(message) => {
     console.log(`${bot.user.username} is online`);
     bot.user.setActivity("Invite to get rewards!")
 });
+
+client.on(`guildMembersAdd`, member => {
+    if (member.guild.id !== serverStats.guildID) return;
+    client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
+    client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
+    client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
+
+    
+});
+
+client.on(`guildMemberRemove`, member => {
+    if (member.guild.id !== serverStats.guildID) return
+    client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
+    client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
+    client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
+})
 
 bot.on("message", async (message) => {
     if(message.author.bot) return;
