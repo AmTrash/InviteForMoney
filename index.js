@@ -85,7 +85,7 @@ bot.on("message", async (message) => {
     else {
       return;
     }
-  };
+  }
 })
   
 bot.login(process.env.BOT_TOKEN)
