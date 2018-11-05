@@ -5,6 +5,8 @@ const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection
 const active = new Map();
 
+
+
 fs.readdir("./commands/", (err, files) => {
 
     if(err) console.log(err);
@@ -14,7 +16,10 @@ fs.readdir("./commands/", (err, files) => {
         console.log("Couldn't find commands");
         return
     }   
-
+    let ops = {
+        ownerID: ownerID,
+        active: active
+    }
     jsfile.forEach((f, i) =>{
         let props = require(`./commands/${f}`);
         console.log(`${f} loaded`)
