@@ -2,8 +2,7 @@ const botconfig = require("./botconfig.json")
 const Discord = require("discord.js")
 const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
-bot.commands = new Discord.Collection
-const active = new Map();
+bot.commands = new Discord.Collection();
 
 
 fs.readdir("./commands/", (err, files) => {
@@ -37,22 +36,8 @@ bot.on("message", async (message) => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
-    client.on(`guildMembersAdd`, member => {
-        if (member.guild.id !== serverStats.guildID) return;
-        client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
-        client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
-        client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
-    
-        
-    });
-    
-    client.on(`guildMemberRemove`, member => {
-        if (member.guild.id !== serverStats.guildID) return
-        client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
-        client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
-        client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
-    })
-    
+    let commandfile = bot.commands.get(cmd.slice(prefix.length));
+    if(commandfile) commandfile.run(bot,message,args);
 
     if(cmd == `${prefix}serverinfo`){
 
@@ -66,8 +51,6 @@ bot.on("message", async (message) => {
 
         return message.channel.send(serverembed)
     }
-    let commandfile = bot.commands.get(cmd.slice(prefix.length));
-    if(commandfile) commandfile.run(bot,message,args);
     
     if(cmd.toLowerCase() == `${botconfig.prefix}new`){
     var channel;
