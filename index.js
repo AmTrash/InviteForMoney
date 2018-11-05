@@ -75,7 +75,8 @@ bot.on("message", async (message) => {
   }
 
   if (cmd.toLowerCase() == `${botconfig.prefix}close`/* && message.channel.name == message.author.username*/){
-    f (boolean){
+    var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();
+    if (boolean){
       message.member.send("Your support ticket is closed!");
       message.channel.delete();
       let AuthorRole = message.guild.roles.find("name", message.author.username);
@@ -83,7 +84,7 @@ bot.on("message", async (message) => {
     }
     else {
       return;
-    };
+    }
   };
 })
   
