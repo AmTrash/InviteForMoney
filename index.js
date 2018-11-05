@@ -75,16 +75,16 @@ bot.on("message", async (message) => {
   }
 
   if (cmd.toLowerCase() == `${botconfig.prefix}close`/* && message.channel.name == message.author.username*/){
-    var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();
-    if (message.channel.name == message.author.username)
-      message.member.send("Your support ticket is closed");
-      message.channel.delete()
+    var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();//Boolean expression, will return true or false.
+    if (boolean){
+      message.member.send("Your support ticket is closed!");
+      message.channel.delete();
       let AuthorRole = message.guild.roles.find("name", message.author.username);
       message.member.removeRole(AuthorRole);
-  }
-  else {
+    }
+    else {
       return;
-  }
+    }
   
 })
   
