@@ -5,14 +5,6 @@ const bot = new Discord.Client({disableEveryone: true});
 bot.commands = new Discord.Collection
 const active = new Map();
 
-const serverStats = {
-    guildID: '508946111315181569',
-    totalUsersID: '509011097454641162',
-    memberCountID: '509011381001912329',
-    botCountID: '509011429286871050'
-};
-
-
 
 fs.readdir("./commands/", (err, files) => {
 
@@ -23,10 +15,7 @@ fs.readdir("./commands/", (err, files) => {
         console.log("Couldn't find commands");
         return
     }   
-    let ops = {
-        ownerID: ownerID,
-        active: active
-    }
+
     jsfile.forEach((f, i) =>{
         let props = require(`./commands/${f}`);
         console.log(`${f} loaded`)
@@ -34,25 +23,9 @@ fs.readdir("./commands/", (err, files) => {
     });
 });
 
-bot.on("ready", async(message) => {
+bot.on("ready", async() => {
     console.log(`${bot.user.username} is online`);
     bot.user.setActivity("Invite to get rewards!")
-});
-
-client.on(`guildMembersAdd`, member => {
-    if (member.guild.id !== serverStats.guildID) return;
-    client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
-    client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
-    client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
-
-    
-});
-
-client.on(`guildMemberRemove`, member => {
-    if (member.guild.id !== serverStats.guildID) return
-    client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
-    client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
-    client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
 })
 
 bot.on("message", async (message) => {
@@ -64,9 +37,25 @@ bot.on("message", async (message) => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
+    client.on(`guildMembersAdd`, member => {
+        if (member.guild.id !== serverStats.guildID) return;
+        client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
+        client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
+        client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
+    
+        
+    });
+    
+    client.on(`guildMemberRemove`, member => {
+        if (member.guild.id !== serverStats.guildID) return
+        client.channel.get(serverStats.totalUsersID).setName(`Total Users : ${member.guild.memberCount}`);
+        client.channel.get(serverStats.memberCountID).setName(`Member Count : ${member.guild.members.filter(m => !m.user.bot).size}`);
+        client.channel.get(serverStats.botCountID).setName(`Bot Count : ${member.guild.members.filter(m => m.user.bot).size}`);
+    })
+    
+
     if(cmd == `${prefix}serverinfo`){
 
-        let sicon = message.guild.iconURL;
         let serverembed = new Discord.RichEmbed()
         .setAuthor("Server Info")
         .setColor("GOLD")
@@ -77,16 +66,9 @@ bot.on("message", async (message) => {
 
         return message.channel.send(serverembed)
     }
-    client.on("message", (message) => {
-            if (message.content.startsWith("fuckyou")) {
-              message.channel.send("What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little \"clever\" comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo.");
-            }
-        });
-    
-    
-
     let commandfile = bot.commands.get(cmd.slice(prefix.length));
     if(commandfile) commandfile.run(bot,message,args);
+    
     if(cmd.toLowerCase() == `${botconfig.prefix}new`){
     var channel;
     var Member;
@@ -121,7 +103,8 @@ bot.on("message", async (message) => {
     else {
       return;
     }
-  }
-})
+  };
   
-bot.login(process.env.BOT_TOKEN)
+})
+
+bot.login(process.env.BOT_TOKEN);
