@@ -6,7 +6,7 @@ bot.commands = new Discord.Collection
 const active = new Map();
 
 
-fs.readdir("./commands/", (err, files) => {
+fs.readdir("./command/", (err, files) => {
 
     if(err) console.log(err);
 
@@ -17,7 +17,7 @@ fs.readdir("./commands/", (err, files) => {
     }   
 
     jsfile.forEach((f, i) =>{
-        let props = require(`./commands/${f}`);
+        let props = require(`./command/${f}`);
         console.log(`${f} loaded`)
         bot.commands.set(props.help, props);
     });
