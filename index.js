@@ -74,8 +74,8 @@ bot.on("message", async (message) => {
     message.channel.send("Ticket has been succesfully created :white_check_mark:");
   }
 
-  if (cmd.toLowerCase() == `${botconfig.prefix}close`/* && message.channel.name == message.author.username*/){
-    var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();
+  iif (cmd.toLowerCase() == `${config.prefix}complete`){
+    var boolean = message.channel.name.toLowerCase() == message.author.username.toLowerCase();//Boolean expression, will return true or false.
     if (boolean){
       message.member.send("Your support ticket is closed!");
       message.channel.delete();
@@ -85,7 +85,7 @@ bot.on("message", async (message) => {
     else {
       return;
     }
-  };
+  }
 })
   
 bot.login(process.env.BOT_TOKEN)
