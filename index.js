@@ -2,7 +2,8 @@ const botconfig = require("./botconfig.json")
 const Discord = require("discord.js")
 const fs = require("fs");
 const bot = new Discord.Client({disableEveryone: true});
-bot.commands = new Discord.Collection();
+bot.commands = new Discord.Collection
+const active = new Map();
 
 
 fs.readdir("./commands/", (err, files) => {
@@ -36,9 +37,6 @@ bot.on("message", async (message) => {
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
 
-    let commandfile = bot.commands.get(cmd.slice(prefix.length));
-    if(commandfile) commandfile.run(bot,message,args);
-
     if(cmd == `${prefix}serverinfo`){
 
         let serverembed = new Discord.RichEmbed()
@@ -51,6 +49,8 @@ bot.on("message", async (message) => {
 
         return message.channel.send(serverembed)
     }
+    let commandfile = bot.commands.get(cmd.slice(prefix.length));
+    if(commandfile) commandfile.run(bot,message,args);
     
     if(cmd.toLowerCase() == `${botconfig.prefix}new`){
     var channel;
@@ -89,5 +89,5 @@ bot.on("message", async (message) => {
   };
   
 })
+bot.login(process.env.BOT_TOKEN)
 
-bot.login(process.env.BOT_TOKEN);
